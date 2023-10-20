@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var request = new XMLHttpRequest();
+        request.open('GET','https://restcountries.com/v3.1/all');
+        request.send();
+        request.onload = function()
+        {
+        var data = JSON.parse(request.response)
+
+        // Asia Continent Filter
+        var result=data.filter((element) => element.region=="Asia")
+        console.log("Get all the countries from Asia continent /region using Filter function");
+        console.log(result);
+
+        // >2L Population Filter
+        console.log("Get all the countries with a population of less than 2 lakhs using Filter function");
+        var result1=data.filter((element) => element.population < 200000);
+        console.log(result1);
+         
+         // For Each _Print the Name,capital,Flag
+        console.log("For Each _Print the Name,capital,Flag");
+         var result2=data.forEach((element) =>console.log(element.name,element.capital,element.flag))
+            
+          // For Each _Print the Name,capital,Flag
+        console.log("Print the total population of countries using reduce function");
+        var populationcount= data.reduce((acc,val)=> acc+val.population,0) 
+        console.log(populationcount);
+
+        // Print the country which uses US Dollars as currency.
+               
+        const usDollarCountries = data.filter(country => {
+         return country.currencies && country.currencies.USD;
+        });
+        
+        if (usDollarCountries.length > 0) {
+        console.log("Countries that use US Dollars as currency:");
+        usDollarCountries.forEach(country => {
+        console.log(country.name.common);
+        });
+        }
+        
+        else 
+        {
+            console.log("No countries found that use US Dollars as currency.");
+        }
+    }
+
+
+        
+
+    </script>
+</body>
+</html>
